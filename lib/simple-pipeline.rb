@@ -4,6 +4,8 @@ module Simple
 
   class Pipeline
 
+    attr_accessor :context
+
     def initialize(filters=nil, context: nil)
       @context = context
       @filters = []
