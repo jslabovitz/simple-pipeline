@@ -9,8 +9,7 @@ class Test < MiniTest::Test
 
   def test_number
     pipeline = Simple::Pipeline.new([MultiplyFilter, MultiplyFilter, MultiplyFilter])
-    pipeline.input = 1
-    result = pipeline.output
+    result = pipeline.process(1)
     assert { result == 8 }
   end
 
@@ -24,8 +23,7 @@ class Test < MiniTest::Test
     file = Tempfile.new('foo')
     file.write('1')
     file.rewind
-    pipeline.input = file
-    result = pipeline.output
+    result = pipeline.process(file)
     assert { result == "Value: 2" }
   end
 

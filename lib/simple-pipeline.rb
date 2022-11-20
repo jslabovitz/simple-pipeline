@@ -12,6 +12,11 @@ module Simple
       filters.each { |f| self << f } if filters
     end
 
+    def process(value)
+      self.input = value
+      output
+    end
+
     def <<(obj)
       filter = case obj
       when Class
