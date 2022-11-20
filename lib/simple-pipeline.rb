@@ -15,10 +15,12 @@ module Simple
     end
 
     def input=(value)
+      raise "No filters" if @filters.empty?
       @filters.first.input = value
     end
 
     def output
+      raise "No filters" if @filters.empty?
       @filters.last.output
     end
 
