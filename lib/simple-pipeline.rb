@@ -26,7 +26,7 @@ module Simple
       when Pipeline
         obj
       else
-        raise
+        raise "Can't add object of class #{obj.class} as filter"
       end
       filter.input = @filters.last
       filter.context = @context
