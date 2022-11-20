@@ -7,13 +7,8 @@ module Simple
       attr_accessor :input
       attr_accessor :context
 
-      def initialize(input:, context:)
-        @input = input
-        @context = context
-      end
-
       def output
-        @output ||= process(@input.kind_of?(Filter) ? @input.output : @input)
+        @output ||= process((@input.kind_of?(Filter) || @input.kind_of?(Pipeline)) ? @input.output : @input)
       end
 
       def process(value)

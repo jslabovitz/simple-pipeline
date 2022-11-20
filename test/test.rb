@@ -29,6 +29,27 @@ class Test < MiniTest::Test
     assert { result == "Value: 2" }
   end
 
+  def test_chained
+    pipeline1 = Simple::Pipeline.new([MultiplyFilter])
+    pipeline2 = Simple::Pipeline.new([pipeline1, MultiplyFilter])
+    pipeline1.input = 1
+    result = pipeline1.output
+    assert { result == 2 }
+    result = pipeline2.output
+    assert { result == 4 }
+  end
+
+  def test_multiple
+    pipeline1 = Simple::Pipeline.new([MultiplyFilter])
+    pipeline2 = Simple::Pipeline.new([pipeline1, FormatFilter, DecorateFilter])
+    pipeline3 = Simple::Pipeline.new([pipeline1, Decorate2Filter])
+    pipeline1.input = 1
+    result = pipeline2.output
+    assert { result == "Value: 2" }
+    result = pipeline3.output
+    assert { result == "VALUE=2" }
+  end
+
 end
 
 class FileReadFilter < Simple::Pipeline::Filter
@@ -67,6 +88,14 @@ class DecorateFilter < Simple::Pipeline::Filter
 
   def process(value)
     "Value: #{value}"
+  end
+
+end
+
+class Decorate2Filter < Simple::Pipeline::Filter
+
+  def process(value)
+    "VALUE=%d" % value
   end
 
 end

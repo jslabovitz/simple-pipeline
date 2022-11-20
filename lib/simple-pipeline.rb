@@ -12,8 +12,20 @@ module Simple
       filters.each { |f| self << f } if filters
     end
 
-    def <<(klass)
-      @filters << klass.new(input: @filters.last, context: @context)
+    def <<(obj)
+      filter = case obj
+      when Class
+        obj.new
+      when Filter
+        obj
+      when Pipeline
+        obj
+      else
+        raise
+      end
+      filter.input = @filters.last
+      filter.context = @context
+      @filters << filter
     end
 
     def input=(value)
