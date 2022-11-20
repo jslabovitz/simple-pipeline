@@ -8,7 +8,13 @@ module Simple
       attr_accessor :context
 
       def output
-        @output ||= process((@input.kind_of?(Filter) || @input.kind_of?(Pipeline)) ? @input.output : @input)
+        value = case @input
+        when Filter, Pipeline
+          @input.output
+        else
+          @input
+        end
+        process(value)
       end
 
       def process(value)
