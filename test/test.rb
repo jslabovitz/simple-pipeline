@@ -9,21 +9,23 @@ class Test < MiniTest::Test
 
   def test_number
     pipeline = Simple::Pipeline.new([MultiplyFilter, MultiplyFilter, MultiplyFilter])
-    result = pipeline.process(1)
+    pipeline.input = 1
+    result = pipeline.output
     assert { result == 8 }
   end
 
   def test_file
-    file = Tempfile.new('foo')
-    file.write('1')
-    file.rewind
     pipeline = Simple::Pipeline.new
     pipeline << FileReadFilter
     pipeline << ParseFilter
     pipeline << MultiplyFilter
     pipeline << FormatFilter
     pipeline << DecorateFilter
-    result = pipeline.process(file)
+    file = Tempfile.new('foo')
+    file.write('1')
+    file.rewind
+    pipeline.input = file
+    result = pipeline.output
     assert { result == "Value: 2" }
   end
 

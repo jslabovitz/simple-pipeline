@@ -14,13 +14,12 @@ module Simple
       @filters << klass.new(input: @filters.last, context: @context)
     end
 
-    def process(value)
-      if @filters.empty?
-        value
-      else
-        @filters.first.input = value
-        @filters.last.result
-      end
+    def input=(value)
+      @filters.first.input = value
+    end
+
+    def output
+      @filters.last.output
     end
 
   end

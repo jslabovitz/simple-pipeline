@@ -12,8 +12,8 @@ module Simple
         @context = context
       end
 
-      def result
-        @result ||= process(@input.kind_of?(Filter) ? @input.result : @input)
+      def output
+        @output ||= process(@input.kind_of?(Filter) ? @input.output : @input)
       end
 
       def process(value)
